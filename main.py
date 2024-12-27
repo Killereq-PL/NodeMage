@@ -9,7 +9,7 @@ class MainApp:
         self.add_menu_exists = False
         self.settings_menu_exists = False
         self.nodes = Nodes()
-        self.node_library = {"Basic": ["Add", "Multiply", "Screen", "ConvertToGrayscale", "MapColor", "ChannelSplit", "ChannelJoin"], 
+        self.node_library = {"Basic": ["Add", "Multiply", "Blend", "ConvertToGrayscale", "MapColor", "ChannelSplit", "ChannelJoin"], 
                             "Noise": ["Perlin", "Simplex", "Voronoi", "Worley"], 
                             "Filter": ["Blur", "Sharpen", "EdgeDetection", "Emboss", "GaussianBlur"], 
                             "Transform": ["Rotate", "Scale", "Translate", "Flip", "Mirror"], 
@@ -108,7 +108,9 @@ class MainApp:
             self.help()
         if dpg.is_key_pressed(dpg.mvKey_Delete):
             for item in dpg.get_selected_nodes("node_editor"):
-                dpg.delete_item(item)
+                self.nodes.delete_node(item)
+        if dpg.is_key_pressed(dpg.mvKey_Add):
+            self.nodes.add_node("basic_add")
         dpg.render_dearpygui_frame()
 
 if __name__ == "__main__":
