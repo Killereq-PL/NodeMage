@@ -7,7 +7,12 @@ class MainApp:
         self.add_shortcut = dpg.mvKey_Spacebar
         self.add_menu_exists = False
         self.settings_menu_exists = False
-        self.node_library = {"Basic": ["Node1", "Node2"]}
+        self.node_library = {"Basic": ["Add", "Multiply", "Screen", "ConvertToGrayscale", "MapColor"], 
+                            "Noise": ["Perlin", "Simplex", "Voronoi", "Worley"], 
+                            "Filter": ["Blur", "Sharpen", "EdgeDetection", "Emboss", "GaussianBlur"], 
+                            "Transform": ["Rotate", "Scale", "Translate", "Flip", "Mirror"], 
+                            "Input": ["Texture"], 
+                            "Output": ["Preview", "Export"]}
         dpg.create_context()
         
         with dpg.font_registry():
@@ -78,7 +83,7 @@ class MainApp:
                 for i in self.node_library.keys():
                     with dpg.menu(label=i):
                         for j in self.node_library[i]:
-                            dpg.add_menu_item(label=j, callback=self.add_menu_callback, user_data=f'{str(i)}_{str(j)}')
+                            dpg.add_menu_item(label=''.join(map(lambda x: x if x.islower() else " "+x, j)), callback=self.add_menu_callback, user_data=f'{str(i)}_{str(j)}'.lower())
             self.add_menu_exists = True
 
     def delete_settings_menu(self):
