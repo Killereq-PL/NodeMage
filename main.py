@@ -1,13 +1,19 @@
 import dearpygui.dearpygui as dpg
-import webbrowser
+from webbrowser import open_new_tab
+from os import _exit
 
 class MainApp:
     def __init__(self):
         self.add_shortcut = dpg.mvKey_Spacebar
         self.add_menu_exists = False
         self.settings_menu_exists = False
+        self.node_library = {"Basic": ["Node1", "Node2"]}
         dpg.create_context()
-        dpg.create_viewport(title='Custom Title', width=1280, height=720)
+        
+        with dpg.font_registry():
+            default_font = dpg.add_font("Roboto-Regular.ttf", 16)
+        
+        dpg.create_viewport(title='NodeMage', width=1280, height=720)
         
         with dpg.window(tag="mainWindow", no_title_bar=True, no_move=True, no_resize=True, no_collapse=True, no_close=True):
             with dpg.menu_bar():
@@ -16,7 +22,7 @@ class MainApp:
                     dpg.add_menu_item(label="Save")
                     dpg.add_menu_item(label="Save As")
                     dpg.add_menu_item(label="Open")
-                    dpg.add_menu_item(label="Exit")
+                    dpg.add_menu_item(label="Exit", callback=self.exit)
                 with dpg.menu(label="Edit"):
                     dpg.add_menu_item(label="Copy")
                     dpg.add_menu_item(label="Paste")
@@ -37,13 +43,16 @@ class MainApp:
 
                     with dpg.node_attribute(label="Node A4", attribute_type=dpg.mvNode_Attr_Output):
                         dpg.add_input_float(label="F4", width=200)
-        
+        dpg.bind_font(default_font)
         dpg.setup_dearpygui()
         dpg.show_viewport()
         dpg.set_primary_window("mainWindow", True)
         while dpg.is_dearpygui_running():
             self.update()
         dpg.destroy_context()
+
+    def exit(self):
+        _exit(0)
 
     # callback runs when user attempts to connect attributes
     def link_callback(self, sender, app_data):
@@ -55,30 +64,34 @@ class MainApp:
         # app_data -> link_id
         dpg.delete_item(app_data)
     
+    def add_menu_callback(self, sender, app_data, user_data):
+        print(f"sender is: {sender}")
+        print(f"app_data is: {app_data}")
+        print(f"user_data is: {user_data}")
+
     def delete_add_menu(self):
         dpg.delete_item(item="add_menu_window")
 
     def create_add_menu(self):
         if not self.add_menu_exists:
             with dpg.window(tag="add_menu_window", no_collapse=True, no_move=True, no_resize=True, no_title_bar=True, no_close=True, width=200, height=200, pos=(dpg.get_mouse_pos(local=False)[0], dpg.get_mouse_pos(local=False)[1]+10)):
-                with dpg.menu(label="Basic"):
-                    dpg.add_menu_item(label="Node")
-                    dpg.add_menu_item(label="Node2")
+                for i in self.node_library.keys():
+                    with dpg.menu(label=i):
+                        for j in self.node_library[i]:
+                            dpg.add_menu_item(label=j, callback=self.add_menu_callback, user_data=f'{str(i)}_{str(j)}')
             self.add_menu_exists = True
-    
+
     def delete_settings_menu(self):
         dpg.delete_item(item="settings_menu_window")
 
     def create_settings_menu(self):
         if not self.settings_menu_exists:
             with dpg.window(label="Settings", tag="settings_menu_window", no_collapse=True, width=800, height=600, pos=(dpg.get_mouse_pos(local=False)[0], dpg.get_mouse_pos(local=False)[1]+10)):
-                with dpg.menu(label="Basic"):
-                    dpg.add_menu_item(label="Node")
-                    dpg.add_menu_item(label="Node2")
+                dpg.add_text(label="Nothing here yet")
             self.settings_menu_exists = True
 
     def help(self):
-        webbrowser.open_new_tab("https://github.com/Killereq-PL/NodeMage/wiki")
+        open_new_tab("https://github.com/Killereq-PL/NodeMage/wiki")
 
     def update(self):
         if self.add_menu_exists:
