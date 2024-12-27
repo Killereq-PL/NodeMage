@@ -1,3 +1,5 @@
+import dearpygui.dearpygui as dpg
+
 class Nodes:
     def __init__(self):
         pass
@@ -6,7 +8,11 @@ class Nodes:
         getattr(self, f'add_{name}')()
 
     def add_basic_add(self):
-        pass
+        with dpg.node(label="Add", parent="node_editor"):
+            dpg.add_node_attribute(label="Image A")
+            dpg.add_node_attribute(label="Image B")
+
+            dpg.add_node_attribute(label="Output Image", attribute_type=dpg.mvNode_Attr_Output)
 
     def add_basic_multiply(self):
         pass
@@ -85,6 +91,3 @@ class Nodes:
 
     def add_output_export(self):
         pass
-
-if __name__ == "__main__":
-    nodes = Nodes()

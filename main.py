@@ -8,6 +8,7 @@ class MainApp:
         self.add_shortcut = dpg.mvKey_Spacebar
         self.add_menu_exists = False
         self.settings_menu_exists = False
+        self.nodes = Nodes()
         self.node_library = {"Basic": ["Add", "Multiply", "Screen", "ConvertToGrayscale", "MapColor", "ChannelSplit", "ChannelJoin"], 
                             "Noise": ["Perlin", "Simplex", "Voronoi", "Worley"], 
                             "Filter": ["Blur", "Sharpen", "EdgeDetection", "Emboss", "GaussianBlur"], 
@@ -36,20 +37,7 @@ class MainApp:
                     dpg.add_menu_item(label="Settings", callback=self.create_settings_menu)
                 dpg.add_menu_item(label="Help", callback=self.help)
                 dpg.add_menu_item(label="Add (Spacebar)", callback=self.create_add_menu)
-            with dpg.node_editor(tag="node_editor", callback=self.link_callback, delink_callback=self.delink_callback):
-                with dpg.node(label="Node 1"):
-                    with dpg.node_attribute(label="Node A1"):
-                        dpg.add_input_float(label="F1", width=150)
-
-                    with dpg.node_attribute(label="Node A2", attribute_type=dpg.mvNode_Attr_Output):
-                        dpg.add_input_float(label="F2", width=150)
-
-                with dpg.node(label="Node 2"):
-                    with dpg.node_attribute(label="Node A3"):
-                        dpg.add_input_float(label="F3", width=200)
-
-                    with dpg.node_attribute(label="Node A4", attribute_type=dpg.mvNode_Attr_Output):
-                        dpg.add_input_float(label="F4", width=200)
+            dpg.add_node_editor(tag="node_editor", callback=self.link_callback, delink_callback=self.delink_callback, minimap=True)
         dpg.bind_font(default_font)
         dpg.setup_dearpygui()
         dpg.show_viewport()
@@ -71,10 +59,11 @@ class MainApp:
         # app_data -> link_id
         dpg.delete_item(app_data)
     
-    def add_menu_callback(sender, app_data, user_data):
+    def add_menu_callback(self, sender, app_data, user_data):
         print(f"sender is: {sender}")
         print(f"app_data is: {app_data}")
         print(f"user_data is: {user_data}")
+        self.nodes.add_node(user_data)
 
     def delete_add_menu(self):
         dpg.delete_item(item="add_menu_window")
@@ -87,6 +76,7 @@ class MainApp:
                     with dpg.menu(label=i):
                         for j in self.node_library[i]:
                             mitem = dpg.add_menu_item(label=''.join(map(lambda x: x if x.islower() else " "+x, j)), callback=self.add_menu_callback, user_data=f'{str(i)}_{str(j)}'.lower())
+                            dpg.set_item_callback(mitem, self.add_menu_callback)
                             with dpg.tooltip(mitem):
                                 dpg.add_text(f'{str(i)}_{str(j)}'.lower())
             self.add_menu_exists = True
@@ -114,6 +104,11 @@ class MainApp:
                 self.settings_menu_exists = False
         if dpg.is_key_pressed(self.add_shortcut):
             self.create_add_menu(False)
+        if dpg.is_key_pressed(dpg.mvKey_F1):
+            self.help()
+        if dpg.is_key_pressed(dpg.mvKey_Delete):
+            for item in dpg.get_selected_nodes("node_editor"):
+                dpg.delete_item(item)
         dpg.render_dearpygui_frame()
 
 if __name__ == "__main__":
