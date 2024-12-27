@@ -1,4 +1,5 @@
 import dearpygui.dearpygui as dpg
+import webbrowser
 
 class MainApp:
     def __init__(self):
@@ -31,7 +32,7 @@ class MainApp:
         dpg.destroy_context()
     
     def help(self):
-        print("Help")
+        webbrowser.open_new_tab("https://github.com/Killereq-PL/NodeMage/wiki")
 
     def update(self):
         dpg.render_dearpygui_frame()
