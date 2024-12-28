@@ -75,10 +75,11 @@ class MainApp:
                 for i in self.node_library.keys():
                     with dpg.menu(label=i):
                         for j in self.node_library[i]:
-                            mitem = dpg.add_menu_item(label=''.join(map(lambda x: x if x.islower() else " "+x, j)), callback=self.add_menu_callback, user_data=f'{str(i)}_{str(j)}'.lower())
-                            dpg.set_item_callback(mitem, self.add_menu_callback)
+                            label = ''.join(map(lambda x: x if x.islower() else " "+x, j))
+                            user_data = f'{str(i)}_{str(j)}'.lower()
+                            mitem = dpg.add_menu_item(label=label, callback=self.add_menu_callback, user_data=user_data)
                             with dpg.tooltip(mitem):
-                                dpg.add_text(f'{str(i)}_{str(j)}'.lower())
+                                dpg.add_text(user_data)
             self.add_menu_exists = True
 
     def delete_settings_menu(self):
