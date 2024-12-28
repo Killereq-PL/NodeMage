@@ -126,7 +126,16 @@ class MainApp:
             self.settings_menu_exists = True
 
     def help(self):
-        open_new_tab("https://github.com/Killereq-PL/NodeMage/wiki")
+        if len(dpg.get_selected_nodes("node_editor")) > 0:
+            for item in dpg.get_selected_nodes("node_editor"):
+                user_data: str = dpg.get_item_user_data(item)
+                i = user_data.split("_")
+                for j in self.node_library[i[0].capitalize()]:
+                    if i[1] == j.lower():
+                        open_new_tab(f'https://github.com/Killereq-PL/NodeMage/wiki/Nodes#{j.lower()}-{user_data}')
+                        break
+        else:
+            open_new_tab("https://github.com/Killereq-PL/NodeMage/wiki")
 
     def update(self):
         if self.add_menu_exists:
