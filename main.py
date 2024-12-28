@@ -53,6 +53,14 @@ class MainApp:
         dpg.destroy_context()
     
     def new(self):
+        for x in dpg.get_all_items():
+            try:
+                if dpg.get_item_type(x) == "mvAppItemType::mvNode":
+                    self.nodes.delete_node(x)
+                elif dpg.get_item_type(x) == "mvAppItemType::mvNodeLink":
+                    dpg.delete_item(x)
+            except:
+                continue
         self.is_file_unsaved = True
         self.current_filename = "Untitled"
     
