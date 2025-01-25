@@ -5,19 +5,21 @@ class Nodes:
         self.nodes = {}
     
     def create_attribute(self, id:str, name:str, type:str, output: bool = False, **kwargs):
-        atrribute_type = dpg.mvNode_Attr_Output if output else dpg.mvNode_Attr_Input
-        with dpg.node_attribute(label=id, attribute_type=atrribute_type) as a:
+        attribute_type = dpg.mvNode_Attr_Output if output else dpg.mvNode_Attr_Input
+        with dpg.node_attribute(label=id, attribute_type=attribute_type) as a:
             if type == "image":
                 dpg.set_item_user_data(a, {"id": id, "type": type, "name": name, "output": output})
                 dpg.add_text(name)
                 if kwargs.get("color", -1) != -1:
                     dpg.configure_item(dpg.last_item(), color=kwargs["color"])
                 if kwargs.get("value", -1) != -1:
-                    ud = dpg.get_item_user_data(dpg.last_item())
+                    ud = dpg.get_item_user_data(a)
                     ud["value"] = kwargs["value"]
-                    dpg.set_item_user_data(dpg.last_item(), ud)
+                    dpg.set_item_user_data(a, ud)
             if type == "float":
-                dpg.set_item_user_data(a, {"id": id, "type": type, "name": name, "output": output})
+                dpg.set_item_user_data(a, {"id": id, "type": type, "name": name, "output": output, "value": kwargs.get("value", 0)})
+                step = kwargs.get("step", 0.1)
+                step_fast = kwargs.get("step_fast", 1.0)
                 max_value = kwargs.get("max_value", 1.0)
                 min_value = kwargs.get("min_value", 0.0)
                 max_clamped = kwargs.get("max_clamped", True)
@@ -25,10 +27,20 @@ class Nodes:
                 dpg.add_input_float(width=100, label=name, max_value=max_value, min_value=min_value, max_clamped=max_clamped, min_clamped=min_clamped)
                 if kwargs.get("color", -1) != -1:
                     dpg.configure_item(dpg.last_item(), color=kwargs["color"])
-                if kwargs.get("value", -1) != -1:
-                    ud = dpg.get_item_user_data(dpg.last_item())
-                    ud["value"] = kwargs["value"]
-                    dpg.set_item_user_data(dpg.last_item(), ud)
+            if type == "color":
+                dpg.set_item_user_data(a, {"id": id, "type": type, "name": name, "output": output, "value": kwargs.get("value", (255, 255, 255, 255))})
+                dpg.add_color_edit(width=200, label=name, default_value=(255, 255, 255, 255))
+                if kwargs.get("color", -1) != -1:
+                    dpg.configure_item(a, color=kwargs["color"])
+            if type == "integer":
+                dpg.set_item_user_data(a, {"id": id, "type": type, "name": name, "output": output, "value": kwargs.get("value", 0)})
+                max_value = kwargs.get("max_value", 255)
+                min_value = kwargs.get("min_value", 0)
+                max_clamped = kwargs.get("max_clamped", True)
+                min_clamped = kwargs.get("min_clamped", True)
+                dpg.add_input_int(width=100, label=name, max_value=max_value, min_value=min_value, max_clamped=max_clamped, min_clamped=min_clamped)
+                if kwargs.get("color", -1) != -1:
+                    dpg.configure_item(dpg.last_item(), color=kwargs["color"])
     
     def get_all_nodes(self):
         return self.nodes.keys()
@@ -72,67 +84,49 @@ class Nodes:
     def add_basic_converttograyscale(self):
         id = "basic_converttograyscale"
         with dpg.node(label="Convert To Grayscale", parent="node_editor", pos=(dpg.get_mouse_pos(local=False)[0], dpg.get_mouse_pos(local=False)[1]), user_data=id) as node:
-            with dpg.node_attribute(label="Image"):
-                dpg.add_text("Image")
-            
-            with dpg.node_attribute(label="OutputImage", attribute_type=dpg.mvNode_Attr_Output):
-                dpg.add_text("Grayscale Image")
+            self.create_attribute("Image", "Image", "image")
+            # -- Output --
+            self.create_attribute("OutputImage", "Output Image", "image", output=True)
             self.nodes[node] = id
 
     def add_basic_mapcolor(self):
         id = "basic_mapcolor"
         with dpg.node(label="Map Color", parent="node_editor", pos=(dpg.get_mouse_pos(local=False)[0], dpg.get_mouse_pos(local=False)[1]), user_data=id) as node:
-            with dpg.node_attribute(label="Image"):
-                dpg.add_text("Image")
-            with dpg.node_attribute(label="RGB"):
-                dpg.add_color_edit(width=200, label="Color", default_value=(255, 255, 255, 255))
-            
-            with dpg.node_attribute(label="OutputImage", attribute_type=dpg.mvNode_Attr_Output):
-                dpg.add_text("Output Image")
+            self.create_attribute("Image", "Image", "image")
+            self.create_attribute("RGB", "Color", "color")
+            # -- Output --
+            self.create_attribute("OutputImage", "Output Image", "image", output=True)
             self.nodes[node] = id
 
     def add_basic_channelsplit(self):
         id = "basic_channelsplit"
         with dpg.node(label="Channel Split", parent="node_editor", pos=(dpg.get_mouse_pos(local=False)[0], dpg.get_mouse_pos(local=False)[1]), user_data=id) as node:
-            with dpg.node_attribute(label="Image"):
-                dpg.add_text("Image")
-            
-            with dpg.node_attribute(label="R", attribute_type=dpg.mvNode_Attr_Output):
-                dpg.add_text("Red")
-            with dpg.node_attribute(label="G", attribute_type=dpg.mvNode_Attr_Output):
-                dpg.add_text("Green")
-            with dpg.node_attribute(label="B", attribute_type=dpg.mvNode_Attr_Output):
-                dpg.add_text("Blue")
-            with dpg.node_attribute(label="A", attribute_type=dpg.mvNode_Attr_Output):
-                dpg.add_text("Alpha")
+            self.create_attribute("Image", "Image", "image")
+            # -- Output --
+            self.create_attribute("R", "Red", "integer", output=True)
+            self.create_attribute("G", "Green", "integer", output=True)
+            self.create_attribute("B", "Blue", "integer", output=True)
+            self.create_attribute("A", "Alpha", "integer", output=True)
             self.nodes[node] = id
 
     def add_basic_channeljoin(self):
         id = "basic_channeljoin"
         with dpg.node(label="Channel Join", parent="node_editor", pos=(dpg.get_mouse_pos(local=False)[0], dpg.get_mouse_pos(local=False)[1]), user_data=id) as node:
-            with dpg.node_attribute(label="R"):
-                dpg.add_text("Red")
-            with dpg.node_attribute(label="G"):
-                dpg.add_text("Green")
-            with dpg.node_attribute(label="B"):
-                dpg.add_text("Blue")
-            with dpg.node_attribute(label="A"):
-                dpg.add_text("Alpha")
-            
-            with dpg.node_attribute(label="OutputImage", attribute_type=dpg.mvNode_Attr_Output):
-                dpg.add_text("Output Image")
+            self.create_attribute("R", "Red", "integer")
+            self.create_attribute("G", "Green", "integer")
+            self.create_attribute("B", "Blue", "integer")
+            self.create_attribute("A", "Alpha", "integer")
+            # -- Output --
+            self.create_attribute("OutputImage", "Output Image", "image", output=True)
             self.nodes[node] = id
 
     def add_noise_perlin(self):
         id = "noise_perlin"
         with dpg.node(label="Perlin Noise", parent="node_editor", pos=(dpg.get_mouse_pos(local=False)[0], dpg.get_mouse_pos(local=False)[1]), user_data=id) as node:
-            with dpg.node_attribute(label="Seed"):
-                dpg.add_input_float(width=100, label="Factor", step=1, step_fast=10)
-            with dpg.node_attribute(label="Factor"):
-                dpg.add_input_float(width=100, label="Factor", max_value=1.0, min_value=0.0, max_clamped=True, min_clamped=True)
-            
-            with dpg.node_attribute(label="OutputImage", attribute_type=dpg.mvNode_Attr_Output):
-                dpg.add_text("Output Image")
+            self.create_attribute("Seed", "Seed", "float", step=1, step_fast=10, min_clamped=False, max_clamped=False, min_value=False, max_value=False)
+            self.create_attribute("Factor", "Factor", "float")
+            # -- Output --
+            self.create_attribute("OutputImage", "Output Image", "image", output=True)
             self.nodes[node] = id
 ###### end of finished
     def add_noise_simplex(self):
