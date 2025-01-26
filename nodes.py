@@ -8,6 +8,7 @@ class Nodes:
         attribute_type = dpg.mvNode_Attr_Output if output else dpg.mvNode_Attr_Input
         with dpg.node_attribute(label=id, attribute_type=attribute_type) as a:
             if type == "image":
+                dpg.configure_item(a, category="image") # color=(0, 195, 255, 255)
                 dpg.set_item_user_data(a, {"id": id, "type": type, "name": name, "output": output})
                 dpg.add_text(name)
                 if kwargs.get("color", -1) != -1:
@@ -17,6 +18,7 @@ class Nodes:
                     ud["value"] = kwargs["value"]
                     dpg.set_item_user_data(a, ud)
             if type == "float":
+                dpg.configure_item(a, category="float") # color=(0, 255, 47, 255)
                 dpg.set_item_user_data(a, {"id": id, "type": type, "name": name, "output": output, "value": kwargs.get("value", 0)})
                 step = kwargs.get("step", 0.1)
                 step_fast = kwargs.get("step_fast", 1.0)
@@ -24,21 +26,34 @@ class Nodes:
                 min_value = kwargs.get("min_value", 0.0)
                 max_clamped = kwargs.get("max_clamped", True)
                 min_clamped = kwargs.get("min_clamped", True)
-                dpg.add_input_float(width=100, label=name, max_value=max_value, min_value=min_value, max_clamped=max_clamped, min_clamped=min_clamped)
+                if output:
+                    dpg.add_text(name)
+                else:
+                    dpg.add_input_float(width=100, label=name, max_value=max_value, min_value=min_value, max_clamped=max_clamped, min_clamped=min_clamped, step=step, step_fast=step_fast)
                 if kwargs.get("color", -1) != -1:
                     dpg.configure_item(dpg.last_item(), color=kwargs["color"])
             if type == "color":
+                dpg.configure_item(a, category="color") # color=(255, 224, 20, 255)
                 dpg.set_item_user_data(a, {"id": id, "type": type, "name": name, "output": output, "value": kwargs.get("value", (255, 255, 255, 255))})
-                dpg.add_color_edit(width=200, label=name, default_value=(255, 255, 255, 255))
+                if output:
+                    dpg.add_text(name)
+                else:
+                    dpg.add_color_edit(width=200, label=name, default_value=(255, 255, 255, 255))
                 if kwargs.get("color", -1) != -1:
                     dpg.configure_item(a, color=kwargs["color"])
             if type == "integer":
+                dpg.configure_item(a, category="integer") # color=(179, 255, 0, 255)
                 dpg.set_item_user_data(a, {"id": id, "type": type, "name": name, "output": output, "value": kwargs.get("value", 0)})
+                step = kwargs.get("step", 1)
+                step_fast = kwargs.get("step_fast", 10)
                 max_value = kwargs.get("max_value", 255)
                 min_value = kwargs.get("min_value", 0)
                 max_clamped = kwargs.get("max_clamped", True)
                 min_clamped = kwargs.get("min_clamped", True)
-                dpg.add_input_int(width=100, label=name, max_value=max_value, min_value=min_value, max_clamped=max_clamped, min_clamped=min_clamped)
+                if output:
+                    dpg.add_text(name)
+                else:
+                    dpg.add_input_int(width=100, label=name, max_value=max_value, min_value=min_value, max_clamped=max_clamped, min_clamped=min_clamped, step=step, step_fast=step_fast)
                 if kwargs.get("color", -1) != -1:
                     dpg.configure_item(dpg.last_item(), color=kwargs["color"])
     
@@ -123,7 +138,7 @@ class Nodes:
     def add_noise_perlin(self):
         id = "noise_perlin"
         with dpg.node(label="Perlin Noise", parent="node_editor", pos=(dpg.get_mouse_pos(local=False)[0], dpg.get_mouse_pos(local=False)[1]), user_data=id) as node:
-            self.create_attribute("Seed", "Seed", "float", step=1, step_fast=10, min_clamped=False, max_clamped=False, min_value=False, max_value=False)
+            self.create_attribute("Seed", "Seed", "integer", min_clamped=False, max_clamped=False, min_value=False, max_value=False)
             self.create_attribute("Factor", "Factor", "float")
             # -- Output --
             self.create_attribute("OutputImage", "Output Image", "image", output=True)
