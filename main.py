@@ -152,7 +152,7 @@ class MainApp:
         if self.settings_menu_exists:
             if dpg.is_key_pressed(dpg.mvKey_Escape):
                 self.delete_settings_menu()
-        if dpg.is_key_pressed(self.add_shortcut):
+        if dpg.is_key_pressed(self.add_shortcut) or (dpg.is_key_down(dpg.mvKey_LShift) and dpg.is_key_pressed(dpg.mvKey_A)):
             self.create_add_menu(False)
         if dpg.is_key_pressed(dpg.mvKey_F1):
             self.help()
