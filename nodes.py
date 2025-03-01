@@ -147,227 +147,170 @@ class Nodes:
     def add_noise_simplex(self):
         id = "basic_add"
         with dpg.node(label="Add", parent="node_editor", pos=(dpg.get_mouse_pos(local=False)[0], dpg.get_mouse_pos(local=False)[1]), user_data=id) as node:
-            with dpg.node_attribute(label="ImageA"):
-                dpg.add_text("Image A")
-            with dpg.node_attribute(label="ImageB"):
-                dpg.add_text("Image B")
-            
-            with dpg.node_attribute(label="OutputImage", attribute_type=dpg.mvNode_Attr_Output):
-                dpg.add_text("Output Image")
+            self.create_attribute("ImageA", "Image A", "image")
+            self.create_attribute("ImageB", "Image B", "image")
+            # -- Output --
+            self.create_attribute("OutputImage", "Output Image", "image", output=True)
             self.nodes[node] = id
 
     def add_noise_voronoi(self):
         id = "basic_add"
         with dpg.node(label="Add", parent="node_editor", pos=(dpg.get_mouse_pos(local=False)[0], dpg.get_mouse_pos(local=False)[1]), user_data=id) as node:
-            with dpg.node_attribute(label="ImageA"):
-                dpg.add_text("Image A")
-            with dpg.node_attribute(label="ImageB"):
-                dpg.add_text("Image B")
-            
-            with dpg.node_attribute(label="OutputImage", attribute_type=dpg.mvNode_Attr_Output):
-                dpg.add_text("Output Image")
+            self.create_attribute("ImageA", "Image A", "image")
+            self.create_attribute("ImageB", "Image B", "image")
+            # -- Output --
+            self.create_attribute("OutputImage", "Output Image", "image", output=True)
             self.nodes[node] = id
 
     def add_noise_worley(self):
         id = "basic_add"
         with dpg.node(label="Add", parent="node_editor", pos=(dpg.get_mouse_pos(local=False)[0], dpg.get_mouse_pos(local=False)[1]), user_data=id) as node:
-            with dpg.node_attribute(label="ImageA"):
-                dpg.add_text("Image A")
-            with dpg.node_attribute(label="ImageB"):
-                dpg.add_text("Image B")
-            
-            with dpg.node_attribute(label="OutputImage", attribute_type=dpg.mvNode_Attr_Output):
-                dpg.add_text("Output Image")
+            self.create_attribute("ImageA", "Image A", "image")
+            self.create_attribute("ImageB", "Image B", "image")
+            # -- Output --
+            self.create_attribute("OutputImage", "Output Image", "image", output=True)
             self.nodes[node] = id
 
     def add_filter_blur(self):
         id = "basic_add"
         with dpg.node(label="Add", parent="node_editor", pos=(dpg.get_mouse_pos(local=False)[0], dpg.get_mouse_pos(local=False)[1]), user_data=id) as node:
-            with dpg.node_attribute(label="ImageA"):
-                dpg.add_text("Image A")
-            with dpg.node_attribute(label="ImageB"):
-                dpg.add_text("Image B")
-            
-            with dpg.node_attribute(label="OutputImage", attribute_type=dpg.mvNode_Attr_Output):
-                dpg.add_text("Output Image")
+            self.create_attribute("ImageA", "Image A", "image")
+            self.create_attribute("ImageB", "Image B", "image")
+            # -- Output --
+            self.create_attribute("OutputImage", "Output Image", "image", output=True)
             self.nodes[node] = id
 
     def add_filter_sharpen(self):
         id = "basic_add"
         with dpg.node(label="Add", parent="node_editor", pos=(dpg.get_mouse_pos(local=False)[0], dpg.get_mouse_pos(local=False)[1]), user_data=id) as node:
-            with dpg.node_attribute(label="ImageA"):
-                dpg.add_text("Image A")
-            with dpg.node_attribute(label="ImageB"):
-                dpg.add_text("Image B")
-            
-            with dpg.node_attribute(label="OutputImage", attribute_type=dpg.mvNode_Attr_Output):
-                dpg.add_text("Output Image")
+            self.create_attribute("ImageA", "Image A", "image")
+            self.create_attribute("ImageB", "Image B", "image")
+            # -- Output --
+            self.create_attribute("OutputImage", "Output Image", "image", output=True)
             self.nodes[node] = id
 
     def add_filter_edgedetection(self):
         id = "basic_add"
         with dpg.node(label="Add", parent="node_editor", pos=(dpg.get_mouse_pos(local=False)[0], dpg.get_mouse_pos(local=False)[1]), user_data=id) as node:
-            with dpg.node_attribute(label="ImageA"):
-                dpg.add_text("Image A")
-            with dpg.node_attribute(label="ImageB"):
-                dpg.add_text("Image B")
-            
-            with dpg.node_attribute(label="OutputImage", attribute_type=dpg.mvNode_Attr_Output):
-                dpg.add_text("Output Image")
+            self.create_attribute("ImageA", "Image A", "image")
+            self.create_attribute("ImageB", "Image B", "image")
+            # -- Output --
+            self.create_attribute("OutputImage", "Output Image", "image", output=True)
             self.nodes[node] = id
 
     def add_filter_emboss(self):
         id = "basic_add"
         with dpg.node(label="Add", parent="node_editor", pos=(dpg.get_mouse_pos(local=False)[0], dpg.get_mouse_pos(local=False)[1]), user_data=id) as node:
-            with dpg.node_attribute(label="ImageA"):
-                dpg.add_text("Image A")
-            with dpg.node_attribute(label="ImageB"):
-                dpg.add_text("Image B")
-            
-            with dpg.node_attribute(label="OutputImage", attribute_type=dpg.mvNode_Attr_Output):
-                dpg.add_text("Output Image")
+            self.create_attribute("ImageA", "Image A", "image")
+            self.create_attribute("ImageB", "Image B", "image")
+            # -- Output --
+            self.create_attribute("OutputImage", "Output Image", "image", output=True)
             self.nodes[node] = id
 
     def add_filter_gaussianblur(self):
         id = "basic_add"
         with dpg.node(label="Add", parent="node_editor", pos=(dpg.get_mouse_pos(local=False)[0], dpg.get_mouse_pos(local=False)[1]), user_data=id) as node:
-            with dpg.node_attribute(label="ImageA"):
-                dpg.add_text("Image A")
-            with dpg.node_attribute(label="ImageB"):
-                dpg.add_text("Image B")
-            
-            with dpg.node_attribute(label="OutputImage", attribute_type=dpg.mvNode_Attr_Output):
-                dpg.add_text("Output Image")
+            self.create_attribute("ImageA", "Image A", "image")
+            self.create_attribute("ImageB", "Image B", "image")
+            # -- Output --
+            self.create_attribute("OutputImage", "Output Image", "image", output=True)
             self.nodes[node] = id
 
     def add_transform_rotate(self):
         id = "basic_add"
         with dpg.node(label="Add", parent="node_editor", pos=(dpg.get_mouse_pos(local=False)[0], dpg.get_mouse_pos(local=False)[1]), user_data=id) as node:
-            with dpg.node_attribute(label="ImageA"):
-                dpg.add_text("Image A")
-            with dpg.node_attribute(label="ImageB"):
-                dpg.add_text("Image B")
-            
-            with dpg.node_attribute(label="OutputImage", attribute_type=dpg.mvNode_Attr_Output):
-                dpg.add_text("Output Image")
+            self.create_attribute("ImageA", "Image A", "image")
+            self.create_attribute("ImageB", "Image B", "image")
+            # -- Output --
+            self.create_attribute("OutputImage", "Output Image", "image", output=True)
             self.nodes[node] = id
 
     def add_transform_scale(self):
         id = "basic_add"
         with dpg.node(label="Add", parent="node_editor", pos=(dpg.get_mouse_pos(local=False)[0], dpg.get_mouse_pos(local=False)[1]), user_data=id) as node:
-            with dpg.node_attribute(label="ImageA"):
-                dpg.add_text("Image A")
-            with dpg.node_attribute(label="ImageB"):
-                dpg.add_text("Image B")
-            
-            with dpg.node_attribute(label="OutputImage", attribute_type=dpg.mvNode_Attr_Output):
-                dpg.add_text("Output Image")
+            self.create_attribute("ImageA", "Image A", "image")
+            self.create_attribute("ImageB", "Image B", "image")
+            # -- Output --
+            self.create_attribute("OutputImage", "Output Image", "image", output=True)
             self.nodes[node] = id
 
     def add_transform_translate(self):
         id = "basic_add"
         with dpg.node(label="Add", parent="node_editor", pos=(dpg.get_mouse_pos(local=False)[0], dpg.get_mouse_pos(local=False)[1]), user_data=id) as node:
-            with dpg.node_attribute(label="ImageA"):
-                dpg.add_text("Image A")
-            with dpg.node_attribute(label="ImageB"):
-                dpg.add_text("Image B")
-            
-            with dpg.node_attribute(label="OutputImage", attribute_type=dpg.mvNode_Attr_Output):
-                dpg.add_text("Output Image")
+            self.create_attribute("ImageA", "Image A", "image")
+            self.create_attribute("ImageB", "Image B", "image")
+            # -- Output --
+            self.create_attribute("OutputImage", "Output Image", "image", output=True)
             self.nodes[node] = id
 
     def add_transform_flip(self):
         id = "basic_add"
         with dpg.node(label="Add", parent="node_editor", pos=(dpg.get_mouse_pos(local=False)[0], dpg.get_mouse_pos(local=False)[1]), user_data=id) as node:
-            with dpg.node_attribute(label="ImageA"):
-                dpg.add_text("Image A")
-            with dpg.node_attribute(label="ImageB"):
-                dpg.add_text("Image B")
-            
-            with dpg.node_attribute(label="OutputImage", attribute_type=dpg.mvNode_Attr_Output):
-                dpg.add_text("Output Image")
+            self.create_attribute("ImageA", "Image A", "image")
+            self.create_attribute("ImageB", "Image B", "image")
+            # -- Output --
+            self.create_attribute("OutputImage", "Output Image", "image", output=True)
             self.nodes[node] = id
 
     def add_transform_mirror(self):
         id = "basic_add"
         with dpg.node(label="Add", parent="node_editor", pos=(dpg.get_mouse_pos(local=False)[0], dpg.get_mouse_pos(local=False)[1]), user_data=id) as node:
-            with dpg.node_attribute(label="ImageA"):
-                dpg.add_text("Image A")
-            with dpg.node_attribute(label="ImageB"):
-                dpg.add_text("Image B")
-            
-            with dpg.node_attribute(label="OutputImage", attribute_type=dpg.mvNode_Attr_Output):
-                dpg.add_text("Output Image")
+            self.create_attribute("ImageA", "Image A", "image")
+            self.create_attribute("ImageB", "Image B", "image")
+            # -- Output --
+            self.create_attribute("OutputImage", "Output Image", "image", output=True)
             self.nodes[node] = id
 
     def add_random_seed(self):
         id = "basic_add"
         with dpg.node(label="Add", parent="node_editor", pos=(dpg.get_mouse_pos(local=False)[0], dpg.get_mouse_pos(local=False)[1]), user_data=id) as node:
-            with dpg.node_attribute(label="ImageA"):
-                dpg.add_text("Image A")
-            with dpg.node_attribute(label="ImageB"):
-                dpg.add_text("Image B")
-            
-            with dpg.node_attribute(label="OutputImage", attribute_type=dpg.mvNode_Attr_Output):
-                dpg.add_text("Output Image")
+            self.create_attribute("ImageA", "Image A", "image")
+            self.create_attribute("ImageB", "Image B", "image")
+            # -- Output --
+            self.create_attribute("OutputImage", "Output Image", "image", output=True)
             self.nodes[node] = id
 
     def add_random_range(self):
         id = "basic_add"
         with dpg.node(label="Add", parent="node_editor", pos=(dpg.get_mouse_pos(local=False)[0], dpg.get_mouse_pos(local=False)[1]), user_data=id) as node:
-            with dpg.node_attribute(label="ImageA"):
-                dpg.add_text("Image A")
-            with dpg.node_attribute(label="ImageB"):
-                dpg.add_text("Image B")
-            
-            with dpg.node_attribute(label="OutputImage", attribute_type=dpg.mvNode_Attr_Output):
-                dpg.add_text("Output Image")
+            self.create_attribute("ImageA", "Image A", "image")
+            self.create_attribute("ImageB", "Image B", "image")
+            # -- Output --
+            self.create_attribute("OutputImage", "Output Image", "image", output=True)
             self.nodes[node] = id
 
     def add_input_texture(self):
         id = "basic_add"
         with dpg.node(label="Add", parent="node_editor", pos=(dpg.get_mouse_pos(local=False)[0], dpg.get_mouse_pos(local=False)[1]), user_data=id) as node:
-            with dpg.node_attribute(label="ImageA"):
-                dpg.add_text("Image A")
-            with dpg.node_attribute(label="ImageB"):
-                dpg.add_text("Image B")
-            
-            with dpg.node_attribute(label="OutputImage", attribute_type=dpg.mvNode_Attr_Output):
-                dpg.add_text("Output Image")
+            self.create_attribute("ImageA", "Image A", "image")
+            self.create_attribute("ImageB", "Image B", "image")
+            # -- Output --
+            self.create_attribute("OutputImage", "Output Image", "image", output=True)
             self.nodes[node] = id
 
     def add_input_color(self):
         id = "basic_add"
         with dpg.node(label="Add", parent="node_editor", pos=(dpg.get_mouse_pos(local=False)[0], dpg.get_mouse_pos(local=False)[1]), user_data=id) as node:
-            with dpg.node_attribute(label="ImageA"):
-                dpg.add_text("Image A")
-            with dpg.node_attribute(label="ImageB"):
-                dpg.add_text("Image B")
-            
-            with dpg.node_attribute(label="OutputImage", attribute_type=dpg.mvNode_Attr_Output):
-                dpg.add_text("Output Image")
+            self.create_attribute("ImageA", "Image A", "image")
+            self.create_attribute("ImageB", "Image B", "image")
+            # -- Output --
+            self.create_attribute("OutputImage", "Output Image", "image", output=True)
             self.nodes[node] = id
 
     def add_output_preview(self):
         id = "basic_add"
         with dpg.node(label="Add", parent="node_editor", pos=(dpg.get_mouse_pos(local=False)[0], dpg.get_mouse_pos(local=False)[1]), user_data=id) as node:
-            with dpg.node_attribute(label="ImageA"):
-                dpg.add_text("Image A")
-            with dpg.node_attribute(label="ImageB"):
-                dpg.add_text("Image B")
-            
-            with dpg.node_attribute(label="OutputImage", attribute_type=dpg.mvNode_Attr_Output):
-                dpg.add_text("Output Image")
+            self.create_attribute("ImageA", "Image A", "image")
+            self.create_attribute("ImageB", "Image B", "image")
+            # -- Output --
+            self.create_attribute("OutputImage", "Output Image", "image", output=True)
             self.nodes[node] = id
 
     def add_output_export(self):
         id = "basic_add"
         with dpg.node(label="Add", parent="node_editor", pos=(dpg.get_mouse_pos(local=False)[0], dpg.get_mouse_pos(local=False)[1]), user_data=id) as node:
-            with dpg.node_attribute(label="ImageA"):
-                dpg.add_text("Image A")
-            with dpg.node_attribute(label="ImageB"):
-                dpg.add_text("Image B")
-            
-            with dpg.node_attribute(label="OutputImage", attribute_type=dpg.mvNode_Attr_Output):
-                dpg.add_text("Output Image")
+            self.create_attribute("ImageA", "Image A", "image")
+            self.create_attribute("ImageB", "Image B", "image")
+            # -- Output --
+            self.create_attribute("OutputImage", "Output Image", "image", output=True)
             self.nodes[node] = id
